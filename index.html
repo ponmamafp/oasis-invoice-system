@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3864">
+<title>株式会社OASIS専用｜請求書発行ツール</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3864;
+    --navy-soft:#EAEFF7;
+    --line:#BFBFBF;
+    --ink:#222;
+    --muted:#666;
+    --bg:#F7F8FB;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;-webkit-text-size-adjust:100%;min-height:100dvh}
+  header.app{background:var(--navy);color:#fff;padding:18px 16px;text-align:center}
+  header.app h1{font-size:15px;font-weight:700;margin:0;letter-spacing:.01em;line-height:1.4}
+  main{max-width:560px;margin:0 auto;padding:24px 18px 80px}
+  .lead{color:var(--ink);font-size:15px;line-height:1.8;margin:8px 0 24px}
+  .lead strong{color:var(--navy)}
+  .choice{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #D0D5DD;border-radius:14px;padding:20px 22px;margin-bottom:14px;box-shadow:0 1px 0 rgba(15,23,42,.03);transition:border-color .15s,box-shadow .15s}
+  .choice:active{border-color:var(--navy);box-shadow:0 0 0 3px rgba(31,56,100,.10)}
+  .choice .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .choice h2{font-size:17px;color:var(--navy);font-weight:700;margin:0;letter-spacing:.02em}
+  .choice .arrow{color:var(--navy);font-size:18px}
+  .choice .desc{font-size:13px;color:var(--muted);line-height:1.6}
+  .choice .tag{display:inline-block;background:var(--navy-soft);color:var(--navy);font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:6px;letter-spacing:.04em}
+  .note{background:#FFF9E6;border:1px solid #F0DC9C;color:#665600;border-radius:10px;padding:14px 16px;margin-top:24px;font-size:12.5px;line-height:1.7}
+  .note strong{color:#7A4F00}
+  footer{text-align:center;font-size:11px;color:var(--muted);padding:24px 16px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>株式会社OASIS専用｜請求書発行ツール</h1>
+</header>
+<main>
+  <p class="lead">
+    請求書を発行するツールです。<br>
+    <strong>あなたのインボイス登録状況に合うほう</strong>を選んでください。
+  </p>
+
+  <a class="choice" href="touroku.html">
+    <div class="head">
+      <span class="tag">登録済み</span>
+      <span class="arrow">→</span>
+    </div>
+    <h2>インボイス登録者用</h2>
+    <p class="desc">
+      適格請求書発行事業者として登録済みの方。<br>
+      源泉徴収の控除なし、消費税込み満額で請求します。<br>
+      <strong>インボイス登録番号（Tから始まる13桁）の入力が必須</strong>です。
+    </p>
+  </a>
+
+  <a class="choice" href="mitouroku.html">
+    <div class="head">
+      <span class="tag">未登録</span>
+      <span class="arrow">→</span>
+    </div>
+    <h2>インボイス未登録者用</h2>
+    <p class="desc">
+      インボイス（適格請求書発行事業者）に登録していない方。<br>
+      源泉徴収（所得税10.21%）が税抜金額から自動控除されます。
+    </p>
+  </a>
+
+  <div class="note">
+    <strong>どちらか分からない場合は</strong><br>
+    自分の確定申告や事業者登録の状況に合わせて選んでください。一度選んだら、お使いの端末では同じツールを使い続けてください（毎月同じURLをご利用ください）。
+  </div>
+</main>
+<footer>株式会社OASIS</footer>
+</body>
+</html>
