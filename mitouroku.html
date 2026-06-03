@@ -279,10 +279,10 @@
       </div>
 
       <div class="sec">
-        <h3>備考（PDFに表示される文言）</h3>
+        <h3>備考（PDFに表示される文言）<span class="locked-badge">編集不可</span></h3>
         <div class="field">
           <label for="sNotes">備考</label>
-          <textarea id="sNotes" rows="4" placeholder="恐れ入りますが、振込手数料はご負担くださいますようお願い申し上げます。&#10;※金額は内税表記です。源泉徴収税額は税抜金額に対して計算しています。"></textarea>
+          <textarea id="sNotes" rows="4" readonly></textarea>
         </div>
       </div>
 
@@ -453,7 +453,7 @@ function deepMerge(base, over){
 }
 
 let settings = loadSettings();
-// ロック項目（宛先・支払条件）は常にCONFIGの値を強制
+// ロック項目（宛先・支払条件・備考）は常にCONFIGの値を強制
 settings.recipient.company    = CONFIG.recipient.company;
 settings.recipient.postalCode = CONFIG.recipient.postalCode;
 settings.recipient.address    = CONFIG.recipient.address;
@@ -462,6 +462,7 @@ settings.paymentTerms = {
   type: CONFIG.paymentTerms.type,
   days: CONFIG.paymentTerms.days
 };
+settings.notes = CONFIG.notes;
 
 /* =========================================================================
    計算ロジック（国税庁ルール準拠）
@@ -997,7 +998,8 @@ function saveFromModal(){
     days: CONFIG.paymentTerms.days
   };
 
-  settings.notes = $("sNotes").value;
+  // 備考はロック項目（編集不可）：常にCONFIGの値を強制
+  settings.notes = CONFIG.notes;
 
   saveSettings(settings);
   refreshPreview();
