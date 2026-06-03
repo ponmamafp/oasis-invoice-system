@@ -243,7 +243,6 @@
         <div class="field"><label for="sIssuerPostal">郵便番号（任意）</label><input type="text" id="sIssuerPostal" inputmode="numeric" placeholder="123-4567"></div>
         <div class="field"><label for="sIssuerAddress">住所（任意）</label><input type="text" id="sIssuerAddress" placeholder="東京都〇〇区..."></div>
         <div class="field"><label for="sIssuerContact">連絡先（メール／電話）</label><input type="text" id="sIssuerContact" placeholder="mail@example.com"></div>
-        <div class="field"><label for="sIssuerReg">インボイス登録番号</label><input type="text" id="sIssuerReg" placeholder="T1234567890123"></div>
       </div>
 
       <div class="sec">
@@ -938,7 +937,6 @@ function escapeHtml(s){
    ========================================================================= */
 function openSettings(){
   $("sIssuerName").value      = settings.issuer.name || "";
-  $("sIssuerReg").value       = settings.issuer.registrationNo || "";
   $("sIssuerContact").value   = settings.issuer.contact || "";
   $("sIssuerPostal").value    = settings.issuer.postalCode || "";
   $("sIssuerAddress").value   = settings.issuer.address || "";
@@ -976,7 +974,7 @@ function closeSettings(){
 }
 function saveFromModal(){
   settings.issuer.name           = $("sIssuerName").value.trim();
-  settings.issuer.registrationNo = $("sIssuerReg").value.trim();
+  settings.issuer.registrationNo = "";
   settings.issuer.contact        = $("sIssuerContact").value.trim();
   settings.issuer.postalCode     = $("sIssuerPostal").value.trim();
   settings.issuer.address        = $("sIssuerAddress").value.trim();
