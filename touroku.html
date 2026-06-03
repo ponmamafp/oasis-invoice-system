@@ -459,6 +459,10 @@ settings.paymentTerms = {
   type: CONFIG.paymentTerms.type,
   days: CONFIG.paymentTerms.days
 };
+// 登録者用は源泉徴収なし → 旧版から引き継いだ「源泉」を含む備考は強制的に新文言に置換
+if(settings.notes && /源泉/.test(settings.notes)){
+  settings.notes = CONFIG.notes;
+}
 
 /* =========================================================================
    計算ロジック（国税庁ルール準拠）
