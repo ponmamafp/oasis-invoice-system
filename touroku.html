@@ -118,6 +118,9 @@
   .modal-body .sec{margin-bottom:22px}
   .modal-body .sec h3{font-size:13px;color:var(--navy);font-weight:700;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid #E5E7EB;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
   .locked-badge{display:inline-block;font-size:10px;font-weight:500;color:var(--muted);background:#EEF1F5;padding:2px 8px;border-radius:10px;letter-spacing:0}
+  .field-error{color:var(--danger);font-size:12px;margin-top:6px;font-weight:500;line-height:1.4}
+  .field-error:empty{display:none}
+  .field-error::before{content:"⚠ ";font-weight:700}
   .field input[readonly],.field input:disabled,.field select:disabled{background:#F4F5F7;color:#555;cursor:not-allowed}
   .field input[readonly]:focus{box-shadow:none;border-color:#D0D5DD}
   .modal-foot{position:sticky;bottom:0;background:#fff;border-top:1px solid #E5E7EB;padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px}
@@ -241,7 +244,7 @@
         <div class="field"><label for="sIssuerPostal">郵便番号（任意）</label><input type="text" id="sIssuerPostal" inputmode="numeric" placeholder="123-4567"></div>
         <div class="field"><label for="sIssuerAddress">住所（任意）</label><input type="text" id="sIssuerAddress" placeholder="東京都〇〇区..."></div>
         <div class="field"><label for="sIssuerContact">連絡先（メール／電話）</label><input type="text" id="sIssuerContact" placeholder="mail@example.com"></div>
-        <div class="field"><label for="sIssuerReg">インボイス登録番号<span class="required">*</span></label><input type="text" id="sIssuerReg" placeholder="T1234567890123" required></div>
+        <div class="field"><label for="sIssuerReg">インボイス登録番号<span class="required">*</span><span class="hint">T + 半角数字13桁</span></label><input type="text" id="sIssuerReg" placeholder="T1234567890123" autocomplete="off" required><div class="field-error" id="sIssuerRegError"></div></div>
       </div>
 
       <div class="sec">
@@ -732,9 +735,14 @@ async function generatePdf(){
     alert("明細を1件以上入力してください（内容と金額の両方が必要です）");
     return;
   }
-  // インボイス登録番号の必須チェック（登録者用）
-  if(!settings.issuer.registrationNo || !settings.issuer.registrationNo.trim()){
+  // インボイス登録番号の必須＋フォーマットチェック（登録者用）
+  const regNo = (settings.issuer.registrationNo || "").trim();
+  if(!regNo){
     alert("インボイス登録番号が未入力です。\n設定画面の「発行元情報」から登録番号を入力してください。");
+    return;
+  }
+  if(!/^T\d{13}$/.test(regNo)){
+    alert("インボイス登録番号のフォーマットが正しくありません。\n「T + 半角数字13桁」の形式で入力してください。\n例：T1234567890123");
     return;
   }
   // 撮影日チェック：すべての明細に撮影日が必要（支払期日の算出に使う）
@@ -925,6 +933,7 @@ function escapeHtml(s){
 function openSettings(){
   $("sIssuerName").value      = settings.issuer.name || "";
   $("sIssuerReg").value       = settings.issuer.registrationNo || "";
+  updateRegNoValidation();
   $("sIssuerContact").value   = settings.issuer.contact || "";
   $("sIssuerPostal").value    = settings.issuer.postalCode || "";
   $("sIssuerAddress").value   = settings.issuer.address || "";
@@ -955,6 +964,20 @@ function updatePayDaysVisibility(){
   const wrap = $("sPayDaysWrap");
   if(!wrap) return;
   wrap.style.display = $("sPayType").value === "daysAfter" ? "" : "none";
+}
+
+// インボイス登録番号のフォーマット検証
+function validateInvoiceRegNo(value){
+  const v = (value || "").trim();
+  if(!v) return "";
+  if(!/^T\d{13}$/.test(v)){
+    return "フォーマットが違います（T + 半角数字13桁）";
+  }
+  return "";
+}
+function updateRegNoValidation(){
+  const msg = validateInvoiceRegNo($("sIssuerReg").value);
+  $("sIssuerRegError").textContent = msg;
 }
 function closeSettings(){
   $("settingsMask").classList.remove("open");
@@ -1026,6 +1049,7 @@ function init(){
   $("btnSettingsCancel").addEventListener("click", closeSettings);
   $("btnSettingsSave").addEventListener("click", saveFromModal);
   $("sPayType").addEventListener("change", updatePayDaysVisibility);
+  $("sIssuerReg").addEventListener("input", updateRegNoValidation);
 
   $("btnDownload").addEventListener("click", generatePdf);
 
